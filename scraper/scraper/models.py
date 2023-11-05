@@ -1,5 +1,5 @@
 from geoalchemy2 import Geometry
-from sqlalchemy import Column, DateTime, Integer, Text
+from sqlalchemy import Column, Integer, Text
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
@@ -12,8 +12,8 @@ class Product(Base):
     spider = Column(Text())
 
     # Information columns
-    acquisition_date = Column("acquisition_date", DateTime(timezone=True))
-    stop_date = Column("stop_date", DateTime(timezone=True))
+    acquisition_date = Column("acquisition_date", Text())
+    stop_date = Column("stop_date", Text())
     orbit = Column("orbit", Text())
     orbit_direction = Column("orbit_direction", Text())
     path = Column("path", Text())

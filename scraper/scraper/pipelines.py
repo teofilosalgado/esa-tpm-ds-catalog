@@ -7,7 +7,7 @@
 # useful for handling different item types with a single interface
 from datetime import datetime
 
-from geoalchemy2 import load_spatialite_gpkg
+from geoalchemy2 import load_spatialite
 from itemadapter import ItemAdapter
 from scrapy.exceptions import DropItem
 from shapely.geometry import Point, Polygon
@@ -55,8 +55,8 @@ class StringToDatetimePipeline:
 
 class SQLitePipeline:
     def __init__(self):
-        engine = create_engine("gpkg:///esa-tpm-ds-catalog.gpkg")
-        listen(engine, "connect", load_spatialite_gpkg)
+        engine = create_engine("sqlite:///esa-tpm-ds-catalog.db")
+        listen(engine, "connect", load_spatialite)
         Base.metadata.create_all(engine)
         self.Session = sessionmaker(bind=engine)
 
@@ -64,13 +64,13 @@ class SQLitePipeline:
         session = self.Session()
         product = Product()
         product.spider = spider.name
-        product.acquisition_date = item["acquisition_date"]
-        product.stop_date = item["stop_date"]
+        product.acquisition_date = item["acquisition_date"].isoformat()
+        product.stop_date = item["stop_date"].isoformat()
         product.orbit = item["orbit"]
         product.orbit_direction = item["orbit_direction"]
         product.path = item["path"]
         product.row = item["row"]
-        product.geometry = item["geometry"].wkt
+        product.geometry = f"SRID=4326;{item['geometry'].wkt}"
         product.sensor_mode = item["sensor_mode"]
         product.product_type = item["product_type"]
         product.product_info_url = item["product_info_url"]
