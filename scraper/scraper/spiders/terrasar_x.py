@@ -43,7 +43,7 @@ class TerraSARXSpider(CrawlSpider):
             "//a[text()='Download Product']/@href"
         ).get()
         tables = response.xpath("//table")
-        for table in tables:
+        for table in tables:  # type: ignore
             product = ProductLoader(item=Product(), selector=table)
             product.add_xpath("acquisition_date", self._build_xpath("Acquisition Date"))
             product.add_xpath("stop_date", self._build_xpath("Stop Date"))

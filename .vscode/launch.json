@@ -6,10 +6,11 @@
     "configurations": [
         {
             "name": "Scrapy: TerraSAR-X",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "module": "scrapy",
             "justMyCode": true,
+            "python": "${workspaceFolder}${pathSeparator}scraper${pathSeparator}.venv${pathSeparator}bin${pathSeparator}python3",
             "cwd": "${workspaceFolder}${pathSeparator}scraper",
             "args": [
                 "crawl",
